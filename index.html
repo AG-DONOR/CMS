@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - University of the Visayas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #d3d3d3, #4caf50);
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            color: #2f4f4f;
+            font-size: 24px;
+        }
+        .logo {
+            width: 100px;
+            margin-right: 20px;
+        }
+        .login-box {
+            background: white;
+            padding: 20px;
+            margin: 100px auto;
+            width: 400px;
+            border: 2px solid #0d3313;
+            border-radius: 8px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            width: 80%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0a500e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="images/uv_seal.png" alt="Logo" class="logo">
+        <div>University of the Visayas</div>
+    </div>
+    <div class="login-box">
+        <h2>Welcome!</h2>
+        <p>To get started, type in your User ID and Password</p>
+        <form id="loginForm" method="POST" action="login.php">
+            <input type="text" name="userId" placeholder="User ID" id="userId" required><br>
+            <input type="password" name="password" placeholder="Password" id="password" required><br>
+            <input type="submit" value="LOG IN">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Replace 'user-dashboard.html' with the actual URL of the user dashboard
+            window.location.href = 'dashwcheck.html';
+        });
+    </script>
+</body>
+</html>

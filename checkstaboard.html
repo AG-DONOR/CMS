@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Concern Status - University of the Visayas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f0f0f0, #4caf50);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: #022e08;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 80px;
+            margin-right: 20px;
+        }
+        .user-info {
+            margin-right: 20px;
+            text-align: right;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .nav-buttons button:hover {
+            background-color: #45a049;
+        }
+        .dashboard {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #4caf50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .form-group input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .submit-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+        .results p {
+            font-size: 16px;
+            color: #333;
+        }
+        .status-container {
+            margin-top: 30px;
+            display: none;
+            text-align: center;
+        }
+        .status-container p {
+            font-size: 16px;
+            color: #333;
+            margin: 5px 0; /* Add some margin for spacing */
+        }
+        .progress-bar-container {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .progress-bar {
+            background-color: #4caf50;
+            height: 20px;
+            border-radius: 5px;
+            text-align: right;
+            color: white;
+            padding-right: 5px;
+            box-sizing: border-box;
+            transition: width 2s ease;
+        }
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-info">
+            <img src="images/uv_seal.png" alt="University Logo" class="logo">
+            <div class="user-info">
+                <div>University of the Visayas</div>
+                <div>Check Concern Status</div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button type="button" onclick="goBack()">Back to Dashboard</button>
+            <button type="button" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <h2>Check Concern Status</h2>
+
+        <div class="form-group">
+            <input type="text" id="ticketIdInput" placeholder="Enter your Ticket ID" required>
+            <button class="submit-btn" onclick="checkStatus()">Check Status</button>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            Invalid Ticket ID. Please try again.
+        </div>
+
+        <div class="results" id="results">
+            <p><strong>Ticket ID:</strong> <span id="statusTicketId"></span></p>
+            <p><strong>Name:</strong> Cardo Dalisay</p>
+            <p><strong>Course & Year Level:</strong> BSEE-A1</p>
+            <p><strong>Department:</strong> CETA</p>
+            <p><strong>Concern:</strong> Grading dispute</p>
+            <p><strong>Date:</strong> 2024-09-23</p>
+        </div>
+
+        <div class="status-container" id="statusContainer">
+            <p><strong>Status:</strong> <span id="statusText">ONGOING</span></p>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%;">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkStatus() {
+            const ticketId = document.getElementById('ticketIdInput').value.trim();
+            const validTicketId = 'xh34t4hg'; // Example valid Ticket ID for testing
+
+            if (ticketId === validTicketId) {
+                // Update the results section
+                document.getElementById('statusTicketId').textContent = ticketId;
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+
+                // Show the status container
+                document.getElementById('statusContainer').style.display = 'block';
+
+                // Initialize and animate the progress bar
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = '0%';
+                progressBar.textContent = '0%';
+
+                // Optionally simulate a status update after a delay
+                setTimeout(() => {
+                    // Update status text or progress dynamically if needed
+                    document.getElementById('statusText').textContent = 'ONGOING'; // Example update
+                    progressBar.style.width = '70%';
+                    progressBar.textContent = '70%';
+                }, 2000); // 2 seconds delay for simulation
+            } else {
+                // Show error message if the ticket ID is invalid
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('statusContainer').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            window.location.href = "dashwcheck.html";
+        }
+
+        function logout() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - University of the Visayas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #e0e0e0, #4caf50);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: #022e08;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 80px;
+            margin-right: 20px;
+        }
+        .user-info {
+            margin-right: 20px;
+            text-align: right;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        .nav-buttons button:hover {
+            background-color: #45a049;
+        }
+        .dashboard {
+            background: white;
+            width: 80%;
+            max-width: 900px;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-header h2 {
+            margin: 0;
+            color: #4caf50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .submit-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+        }
+        .modal.active {
+            display: block;
+        }
+        #ticketIdInput {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-info">
+            <img src="images/uv_seal.png" alt="Logo" class="logo">
+            <div class="user-info">
+                <div>Student’s Name: John Doe</div>
+                <div>User ID: 123456</div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button id="checkStatusBtn">Check Status</button>
+            <button type="button" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h2>Student Concern Form</h2>
+        </div>
+
+        <form id="concernForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="course">Course & Year Level</label>
+                <input type="text" id="course" placeholder="Enter your course and year level" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option>CBA</option>
+                    <option>CETA</option>
+                    <option>CCJE</option>
+                    <option>COED</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="concern">Concern</label>
+                <select id="concern" required>
+                    <option value="">Select Concern</option>
+                    <option>Enrollment concerns</option>
+                    <option>Grading disputes</option>
+                    <option>Course content concerns</option>
+                    <option>Tuition and fees</option>
+                    <option>Scholarships and grants</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="information">Information</label>
+                <textarea id="information" placeholder="Enter detailed information" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Attach files/images as supporting documents</label>
+                <input type="file">
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <div class="modal" id="successModal">
+        <h3>Report Success!</h3>
+        <p>Concern ID: <span id="ticketId"></span></p>
+        <p>Please save or screenshot your Report ID</p>
+        <p>Use ID to check for Update/Status</p>
+        <button type="button" onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        document.getElementById('concernForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const ticketId = generateTicketId();
+            document.getElementById('ticketId').textContent = ticketId;
+            document.getElementById('successModal').classList.add('active');
+        });
+
+        function generateTicketId() {
+            return Math.random().toString(36).substr(2, 8);
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        document.getElementById('checkStatusBtn').addEventListener('click', function() {
+            window.location.href = "checkstaboard.html";
+        });
+
+        function logout() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+</html>
